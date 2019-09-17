@@ -1,5 +1,9 @@
 # WineAFLplusplusDEMO
 
+A set of helpers and examples to fuzz Win32 binaries with AFL++ QEMU
+
+### Requirements
+
 To fuzz Win32 PE applications with AFL++ QEMU you must ensure that your Linux
 distribution is able to run Wine without preloader.
 
@@ -8,6 +12,10 @@ Check it simply typing:
 ```
 $ WINELOADERNOEXEC=1 wine cmd
 ```
+
+You need also python3 and the pefile package.
+
+### Fuzz
 
 Copy the `afl-wine-trace` script into the AFL++ path or export AFL_PATH.
 
