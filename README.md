@@ -18,7 +18,7 @@ You need also python3 and the pefile package.
 ### Fuzz
 
 Clone the master branch of [AFL++](https://github.com/vanhauser-thc/AFLplusplus)
-and build qemu_mode.
+and build qemu_mode (use CPU_TARGET=i386 for this example).
 
 Copy the `afl-wine-trace` script into the AFL++ path or export AFL_PATH.
 
