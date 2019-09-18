@@ -1,5 +1,7 @@
 # WineAFLplusplusDEMO
 
+> Note: this feature will be integrated soon in AFL++ after proper testing with the -W command line switch
+
 A set of helpers and examples to fuzz Win32 binaries with AFL++ QEMU
 
 ### Requirements
