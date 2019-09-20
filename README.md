@@ -22,6 +22,10 @@ and build qemu_mode.
 
 Copy the `afl-wine-trace` script into the AFL++ path or export AFL_PATH.
 
+Wine installs some signal handlers for exception handling but for fuzzing we want to disable them and let the fuzzed program crash.
+
+Build unsigation with make and copy `unsigation32.so` and `unsigation64.so` into the smae directory of `afl-wine-trace`.
+
 To fuzz a PE run it like in the following example with pnginfo.exe:
 
 ```

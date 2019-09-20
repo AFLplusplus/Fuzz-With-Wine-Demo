@@ -6,7 +6,7 @@ import pefile
 import shutil
 
 if len(sys.argv) < 2:
-    print("[wine-cov] usage: wine-cov binary [args...]\n")
+    print("[afl-wine-trace] usage: wine-cov binary [args...]\n")
     exit(1)
 
 if os.getenv("AFL_PATH"):
@@ -22,6 +22,11 @@ os.environ["AFL_ENTRYPOINT"] = "0x%x" % (pe.OPTIONAL_HEADER.ImageBase + pe.OPTIO
 if not os.getenv("AFL_INST_LIBS"):
     os.environ["AFL_CODE_START"] = "0x%x" % (pe.OPTIONAL_HEADER.ImageBase + pe.OPTIONAL_HEADER.BaseOfCode)
     os.environ["AFL_CODE_END"] = "0x%x" % (pe.OPTIONAL_HEADER.ImageBase + pe.OPTIONAL_HEADER.BaseOfCode + pe.OPTIONAL_HEADER.SizeOfCode)
+
+if pe.FILE_HEADER.Machine == pefile.MACHINE_TYPE["IMAGE_FILE_MACHINE_AMD64"] or pe.FILE_HEADER.Machine == pefile.MACHINE_TYPE["IMAGE_FILE_MACHINE_IA64"]:
+    os.environ["LD_PRELOAD"] = os.path.join(my_dir, "unsigaction64.so")
+else:
+    os.environ["LD_PRELOAD"] = os.path.join(my_dir, "unsigaction32.so")
 
 if os.getenv("WINECOV_QEMU_PATH"):
     qemu_path = os.getenv("WINECOV_QEMU_PATH")
@@ -47,7 +52,7 @@ else:
     elif pe.FILE_HEADER.Machine == pefile.MACHINE_TYPE["IMAGE_FILE_MACHINE_I386"]:
         pass
     else:
-        print ("[wine-cov] unsuppoted architecture\n")
+        print ("[afl-wine-trace] unsopported architecture\n")
         exit(1)
 
 os.execve(qemu_path, [qemu_path, wine_path] + sys.argv[1:], os.environ)
