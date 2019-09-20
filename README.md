@@ -26,7 +26,7 @@ Copy the `afl-wine-trace` script into the AFL++ path or export AFL_PATH.
 
 Wine installs some signal handlers for exception handling but for fuzzing we want to disable them and let the fuzzed program crash.
 
-Build unsigation with make and copy `unsigation32.so` and `unsigation64.so` into the smae directory of `afl-wine-trace`.
+Build unsigation with make and copy `unsigation32.so` and `unsigation64.so` into the same directory of `afl-wine-trace`.
 
 To fuzz a PE run it like in the following example with pnginfo.exe:
 
@@ -40,3 +40,6 @@ Without `-m none` the probability that Wine generates an ENOMEM is high.
 The following screen should be familiar to you:
 
 ![expic](img/pnginfo_example.png)
+
+Make sure that the program does not need user interaction, this is common for Windows programs.
+For an example on how to handle them when the interation is useless, the the djpeg example.
