@@ -18,10 +18,13 @@ os.environ["WINELOADERNOEXEC"] = "1"
 
 pe = pefile.PE(sys.argv[1])
 
-os.environ["AFL_ENTRYPOINT"] = "0x%x" % (pe.OPTIONAL_HEADER.ImageBase + pe.OPTIONAL_HEADER.AddressOfEntryPoint)
+if "AFL_ENTRYPOINT" not in os.environ:
+    os.environ["AFL_ENTRYPOINT"] = "0x%x" % (pe.OPTIONAL_HEADER.ImageBase + pe.OPTIONAL_HEADER.AddressOfEntryPoint)
 if not os.getenv("AFL_INST_LIBS"):
-    os.environ["AFL_CODE_START"] = "0x%x" % (pe.OPTIONAL_HEADER.ImageBase + pe.OPTIONAL_HEADER.BaseOfCode)
-    os.environ["AFL_CODE_END"] = "0x%x" % (pe.OPTIONAL_HEADER.ImageBase + pe.OPTIONAL_HEADER.BaseOfCode + pe.OPTIONAL_HEADER.SizeOfCode)
+    if "AFL_CODE_START" not in os.environ:
+        os.environ["AFL_CODE_START"] = "0x%x" % (pe.OPTIONAL_HEADER.ImageBase + pe.OPTIONAL_HEADER.BaseOfCode)
+    if "AFL_CODE_END" not in os.environ:
+        os.environ["AFL_CODE_END"] = "0x%x" % (pe.OPTIONAL_HEADER.ImageBase + pe.OPTIONAL_HEADER.BaseOfCode + pe.OPTIONAL_HEADER.SizeOfCode)
 
 if pe.FILE_HEADER.Machine == pefile.MACHINE_TYPE["IMAGE_FILE_MACHINE_AMD64"] or pe.FILE_HEADER.Machine == pefile.MACHINE_TYPE["IMAGE_FILE_MACHINE_IA64"]:
     os.environ["LD_PRELOAD"] = os.path.join(my_dir, "unsigaction64.so")
