@@ -1,6 +1,6 @@
-# WineAFLplusplusDEMO
+# Fuzz with WINE and AFL++ Demo
 
-> Note: this feature will be integrated soon in AFL++ after proper testing with the -W command line switch
+> Note: is integrated soon in AFL++ with the -W command line switch so the script in this repo is legacy but not the examples
 
 A set of helpers and examples to fuzz Win32 binaries with AFL++ QEMU
 
